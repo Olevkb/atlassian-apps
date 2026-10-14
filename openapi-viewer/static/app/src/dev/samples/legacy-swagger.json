@@ -1,0 +1,16 @@
+{
+  "swagger": "2.0",
+  "info": { "title": "Legacy Stock API", "version": "0.9" },
+  "host": "stock.example.org",
+  "basePath": "/v1",
+  "paths": {
+    "/stock/{sku}": {
+      "get": {
+        "summary": "Stock level for one product",
+        "parameters": [{ "name": "sku", "in": "path", "required": true, "type": "string" }],
+        "responses": { "200": { "description": "Current stock", "schema": { "type": "object",
+          "properties": { "sku": { "type": "string" }, "available": { "type": "integer" } } } } }
+      }
+    }
+  }
+}

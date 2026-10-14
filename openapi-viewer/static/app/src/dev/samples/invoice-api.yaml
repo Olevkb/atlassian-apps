@@ -1,0 +1,83 @@
+openapi: 3.0.3
+info:
+  title: Invoice API
+  version: 1.2.0
+  description: |
+    Create, send and track **invoices**. All amounts are in euro cents.
+servers:
+  - url: https://api.example.org/v1
+tags:
+  - name: Invoices
+    description: Create and manage invoices
+  - name: Customers
+    description: Customers that receive invoices
+paths:
+  /invoices:
+    get:
+      tags: [Invoices]
+      summary: List invoices
+      operationId: listInvoices
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string, enum: [draft, sent, paid] }
+      responses:
+        '200':
+          description: A page of invoices
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Invoice' }
+    post:
+      tags: [Invoices]
+      summary: Create an invoice
+      operationId: createInvoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/NewInvoice' }
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Invoice' }
+        '422': { description: Validation error }
+  /invoices/{id}/send:
+    post:
+      tags: [Invoices]
+      summary: Send an invoice by e-mail
+      operationId: sendInvoice
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '204': { description: Sent }
+  /customers:
+    get:
+      tags: [Customers]
+      summary: List customers
+      responses:
+        '200': { description: Customers }
+components:
+  schemas:
+    NewInvoice:
+      type: object
+      required: [customerId, lines]
+      properties:
+        customerId: { type: string, example: cus_123 }
+        lines:
+          type: array
+          items:
+            type: object
+            properties:
+              description: { type: string, example: Consulting }
+              amount: { type: integer, example: 125000 }
+    Invoice:
+      allOf:
+        - $ref: '#/components/schemas/NewInvoice'
+        - type: object
+          properties:
+            id: { type: string, example: inv_456 }
+            status: { type: string, enum: [draft, sent, paid] }

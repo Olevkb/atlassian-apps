@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><title>OpenAPI Viewer – local test</title></head>
+<body style="font:14px sans-serif;margin:16px">
+  <h2>OpenAPI Viewer – local test (fake Confluence page)</h2>
+  <p>Left: macro settings. Right: the macro as shown on the page (reload after saving).</p>
+  <div style="display:flex;gap:16px">
+    <iframe id="config" src="config.html" style="width:45%;height:900px;border:1px solid #ccc"></iframe>
+    <iframe id="viewer" src="viewer.html" style="width:55%;height:900px;border:1px solid #ccc"></iframe>
+  </div>
+  <script>window.addEventListener('message', (e) => { if (e.data && e.data.type === 'config-saved') document.getElementById('viewer').src = 'viewer.html?' + Date.now(); });</script>
+</body></html>

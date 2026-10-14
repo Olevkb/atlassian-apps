@@ -1,0 +1,41 @@
+modules:
+  macro:
+    - key: openapi-viewer
+      resource: viewer
+      title: OpenAPI Viewer (Swagger)
+      description: Show OpenAPI or Swagger API documentation from a file attached to
+        the page. Nothing leaves Atlassian.
+      layout: block
+      config:
+        resource: config
+        title: OpenAPI Viewer
+        viewportSize: large
+        openOnInsert: true
+        parameters:
+          - identifier: attachmentId
+            type: string
+          - identifier: attachmentName
+            type: string
+          - identifier: options
+            type: string
+          # Summary of the API (title, endpoints, descriptions): makes the page findable in Confluence search
+          - identifier: searchText
+            type: string
+            indexing:
+              enabled: true
+resources:
+  - key: viewer
+    path: static/app/build/viewer
+  - key: config
+    path: static/app/build/config
+app:
+  id: ari:cloud:ecosystem::app/4e289cfc-8acb-4ed9-8b91-45664ee45693
+  runtime:
+    name: nodejs22.x
+permissions:
+  scopes:
+    - read:page:confluence
+    - read:attachment:confluence
+  content:
+    styles:
+      - unsafe-inline

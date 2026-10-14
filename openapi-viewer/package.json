@@ -1,0 +1,7 @@
+{
+  "name": "openapi-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "description": "OpenAPI / Swagger viewer macro for Confluence (Forge, Custom UI). The UI lives in static/app.",
+  "license": "UNLICENSED"
+}
